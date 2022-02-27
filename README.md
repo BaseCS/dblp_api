@@ -3,7 +3,7 @@
 To run this api, first make sure your neo4j server is running, then:
 
 - clone this repo
-- run `npm install
+- run `npm install`
 - create .env file in the main dir with the following details:
   ``` 
       DBLP_DATABASE_USERNAME="enteryourusername"
