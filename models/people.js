@@ -27,17 +27,17 @@ function _manyPeople(neo4jResult) {
 const getById = function (session, id) {
   const query = [
     `MATCH (person:Person) WHERE ID(person) = ${id}`,
-    'OPTIONAL MATCH (person)-[:AUTHORED]->(a:Print)',
-    'OPTIONAL MATCH (person)<-[:EDITED]->(e:Anthology)',
-    'OPTIONAL MATCH (person)<-[:AUTHORED]->(p:Paper)',
-    'RETURN person,',
-    'collect(DISTINCT { title:a.title, id:a.identity.low, year:a.year, series:a.series, \
-        isbn: a.isbn, publisher: a.publisher, electronic_edition: a.electronic_edition, \
-        DBLP_type: a.DBLP_type}) AS authored_print,',
-    'collect(DISTINCT { title:e.title, id:e.identity.low, year:e.year, isbn: e.isbn, \
-        publisher: e.publisher, electronic_edition: e.electronic_edition, DBLP_type: e.DBLP_type}) AS edited,',
-    'collect(DISTINCT { title:p.title, id:p.identity.low, year:p.year, source:p.source, \
-        electronic_edition: p.electronic_edition, DBLP_type: p.DBLP_type}) AS authored_paper',
+    // 'OPTIONAL MATCH (person)-[:AUTHORED]->(a:Print)',
+    // 'OPTIONAL MATCH (person)<-[:EDITED]->(e:Anthology)',
+    // 'OPTIONAL MATCH (person)<-[:AUTHORED]->(p:Paper)',
+    'RETURN person',
+    // 'collect(DISTINCT { title:a.title, id:a.identity.low, year:a.year, series:a.series, \
+    //     isbn: a.isbn, publisher: a.publisher, electronic_edition: a.electronic_edition, \
+    //     DBLP_type: a.DBLP_type}) AS authored_print,',
+    // 'collect(DISTINCT { title:e.title, id:e.identity.low, year:e.year, isbn: e.isbn, \
+    //     publisher: e.publisher, electronic_edition: e.electronic_edition, DBLP_type: e.DBLP_type}) AS edited,',
+    // 'collect(DISTINCT { title:p.title, id:p.identity.low, year:p.year, source:p.source, \
+    //     electronic_edition: p.electronic_edition, DBLP_type: p.DBLP_type}) AS authored_paper',
   ].join('\n');
 
   return session.readTransaction(txc =>

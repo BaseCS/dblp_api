@@ -78,6 +78,9 @@ api.get("/people/:id", require('./routes/people').findById);
 api.get("/institutions/", require('./routes/institutions').list);
 api.get("/institutions/:id", require('./routes/institutions').findById);
 
+api.get("/prints/", require('./routes/prints').list);
+api.get("/prints/:id", require('./routes/prints').findById);
+
 //api error handler
 api.use(function (err, req, res, next) {
   if (err && err.status) {
