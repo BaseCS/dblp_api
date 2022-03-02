@@ -2,16 +2,15 @@
 
 const _ = require('lodash');
 
-const Print = module.exports = function (_node) {
+const Paper = module.exports = function (_node) {
   _.extend(this, _node.properties);
   this.id = _node.identity.low;
   this.DBLP_type = this.DBLP_type;
   this.electronic_edition = this.electronic_edition;
-  this.isbn = this.isbn;
-  this.number_of_pages = this.number_of_pages;
-  this.pages = this.pages;
-  this.publisher = this.publisher;
-  this.series = this.series;
+  this.notes = this.notes;
+  this.source = this.source;
   this.title = this.title;
+  this.url = this.url;
+  this.volume = this.volume;
   this.year = this.year;
 };

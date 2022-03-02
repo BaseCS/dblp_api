@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const Countries = require('../models/countries')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,49 +6,35 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   Country:
  *     type: object
  *     properties:
  *       id:
  *         type: integer
- *       DBLP_type:
+ *       code:
  *         type: string
- *       electronic_edition:
+ *       name:
  *         type: string
- *       isbn:
- *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
- *       publisher:
- *         type: string
- *       series:
- *         type: string
- *       title:
- *          type: string
- *        year:
- *          type: string
  */
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/countries:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - countries
+ *     description: Returns all countries
+ *     summary: Returns all countries
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of countries
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  Countries.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +42,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/countries/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - countries
+ *     description: Returns a country by id
+ *     summary: Returns a country by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: Country id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: A country
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: Country not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  Countries.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

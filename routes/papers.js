@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const Papers = require('../models/papers')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,7 +6,7 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   Paper:
  *     type: object
  *     properties:
  *       id:
@@ -15,40 +15,38 @@ const Prints = require('../models/prints')
  *         type: string
  *       electronic_edition:
  *         type: string
- *       isbn:
+ *       notes:
  *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
- *       publisher:
- *         type: string
- *       series:
+ *       source:
  *         type: string
  *       title:
  *          type: string
  *        year:
  *          type: string
+ *        url:
+ *          type: string
+ *        volume:
+ *          type: string
  */
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/papers:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - papers
+ *     description: Returns all papers
+ *     summary: Returns all papers
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of papers
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  Papers.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +54,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/papers/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - papers
+ *     description: Returns a paper by id
+ *     summary: Returns a paper by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: Paper id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: A paper
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: Paper not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  Papers.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

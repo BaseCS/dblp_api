@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const DBLPS = require('../models/dblps')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,49 +6,33 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   DBLP:
  *     type: object
  *     properties:
  *       id:
  *         type: integer
- *       DBLP_type:
+ *       name:
  *         type: string
- *       electronic_edition:
- *         type: string
- *       isbn:
- *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
- *       publisher:
- *         type: string
- *       series:
- *         type: string
- *       title:
- *          type: string
- *        year:
- *          type: string
  */
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/dblps:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - dblps
+ *     description: Returns all dblps
+ *     summary: Returns all dblps
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of dblps
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  DBLPS.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +40,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/dblps/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - dblps
+ *     description: Returns a dblp by id
+ *     summary: Returns a dblp by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: DBLP id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: A dblp
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: DBLP not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  DBLPS.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

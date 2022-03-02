@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const Conferences = require('../models/conferences')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,49 +6,33 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   Conference:
  *     type: object
  *     properties:
  *       id:
  *         type: integer
- *       DBLP_type:
+ *       name:
  *         type: string
- *       electronic_edition:
- *         type: string
- *       isbn:
- *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
- *       publisher:
- *         type: string
- *       series:
- *         type: string
- *       title:
- *          type: string
- *        year:
- *          type: string
  */
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/conferences:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - conferences
+ *     description: Returns all conferences
+ *     summary: Returns all conferences
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of conferences
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  Conferences.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +40,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/conferences/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - conferences
+ *     description: Returns a conference by id
+ *     summary: Returns a conference by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: Conference id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: A conference
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: Conference not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  Conferences.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const Journals = require('../models/journals')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,49 +6,33 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   Journal:
  *     type: object
  *     properties:
  *       id:
  *         type: integer
- *       DBLP_type:
+ *       name:
  *         type: string
- *       electronic_edition:
- *         type: string
- *       isbn:
- *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
- *       publisher:
- *         type: string
- *       series:
- *         type: string
- *       title:
- *          type: string
- *        year:
- *          type: string
  */
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/journals:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - journals
+ *     description: Returns all journals
+ *     summary: Returns all journals
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of journals
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  Journals.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +40,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/journals/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - journals
+ *     description: Returns a journal by id
+ *     summary: Returns a journal by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: Journal id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: A journal
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: Journal not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  Journals.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

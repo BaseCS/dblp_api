@@ -1,4 +1,4 @@
-const Prints = require('../models/prints')
+const Anthologies = require('../models/anthologies')
   , _ = require('lodash')
   , writeResponse = require('../helpers/response').writeResponse
   , dbUtils = require('../neo4j/dbUtils');
@@ -6,7 +6,7 @@ const Prints = require('../models/prints')
 /**
  * @swagger
  * definition:
- *   Print:
+ *   Anthology:
  *     type: object
  *     properties:
  *       id:
@@ -17,10 +17,6 @@ const Prints = require('../models/prints')
  *         type: string
  *       isbn:
  *         type: string
- *       number_of_pages:
- *         type: int
- *       pages:
- *         type: int
  *       publisher:
  *         type: string
  *       series:
@@ -33,22 +29,22 @@ const Prints = require('../models/prints')
 
 /**
  * @swagger
- * /api/v0/prints:
+ * /api/v0/anthologies:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns all prints
- *     summary: Returns all prints
+ *     - anthologies
+ *     description: Returns all anthologies
+ *     summary: Returns all anthologies
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: A list of prints
+ *         description: A list of anthologies
  *         schema:
  *           type: array
  */
 exports.list = function (req, res, next) {
-  Prints.getAll(dbUtils.getSession(req))
+  Anthologies.getAll(dbUtils.getSession(req))
     .then(response => writeResponse(res, response))
     .catch(next);
 };
@@ -56,34 +52,34 @@ exports.list = function (req, res, next) {
 
 /**
  * @swagger
- * /api/v0/prints/{id}:
+ * /api/v0/anthologies/{id}:
  *   get:
  *     tags:
- *     - prints
- *     description: Returns a print by id
- *     summary: Returns a print by id
+ *     - anthologies
+ *     description: Returns an anthology by id
+ *     summary: Returns an anthology by id
  *     produces:
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: Print id
+ *         description: Anthology id
  *         in: path
  *         required: true
  *         type: integer
  *     responses:
  *       200:
- *         description: A print
+ *         description: An anthology
 
  *       400:
  *         description: Error message(s)
  *       404:
- *         description: Print not found
+ *         description: Anthology not found
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
 
-  Prints.getById(dbUtils.getSession(req), id)
+  Anthologies.getById(dbUtils.getSession(req), id)
     .then(response => writeResponse(res, response))
     .catch(next);
 };

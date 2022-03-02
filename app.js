@@ -72,11 +72,32 @@ api.use(function (req, res, next) {
 // api.use(neo4jSessionCleanup);
 
 //api routes
-api.get("/people", require('./routes/people').list);
-api.get("/people/:id", require('./routes/people').findById);
+api.get("/anthologies", require('./routes/anthologies').list);
+api.get("/anthologies/:id", require('./routes/anthologies').findById);
+
+api.get("/conferences/", require('./routes/conferences').list);
+api.get("/conferences/:id", require('./routes/conferences').findById);
+
+api.get("/continents/", require('./routes/continents').list);
+api.get("/continents/:id", require('./routes/continents').findById);
+
+api.get("/countries", require('./routes/countries').list);
+api.get("/countries/:id", require('./routes/countries').findById);
+
+api.get("/dblps/", require('./routes/dblps').list);
+api.get("/dblps/:id", require('./routes/dblps').findById);
 
 api.get("/institutions/", require('./routes/institutions').list);
 api.get("/institutions/:id", require('./routes/institutions').findById);
+
+api.get("/journals/", require('./routes/journals').list);
+api.get("/journals/:id", require('./routes/journals').findById);
+
+api.get("/papers", require('./routes/papers').list);
+api.get("/papers/:id", require('./routes/papers').findById);
+
+api.get("/people/", require('./routes/people').list);
+api.get("/people/:id", require('./routes/people').findById);
 
 api.get("/prints/", require('./routes/prints').list);
 api.get("/prints/:id", require('./routes/prints').findById);
