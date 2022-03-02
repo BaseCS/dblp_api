@@ -22,9 +22,9 @@ const Anthologies = require('../models/anthologies')
  *       series:
  *         type: string
  *       title:
- *          type: string
- *        year:
- *          type: string
+ *         type: string
+ *       year:
+ *         type: string
  */
 
 /**

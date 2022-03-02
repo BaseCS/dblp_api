@@ -18,17 +18,17 @@ const Prints = require('../models/prints')
  *       isbn:
  *         type: string
  *       number_of_pages:
- *         type: int
+ *         type: integer
  *       pages:
- *         type: int
+ *         type: integer
  *       publisher:
  *         type: string
  *       series:
  *         type: string
  *       title:
- *          type: string
- *        year:
- *          type: string
+ *         type: string
+ *       year:
+ *         type: string
  */
 
 /**

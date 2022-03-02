@@ -19,14 +19,14 @@ const Papers = require('../models/papers')
  *         type: string
  *       source:
  *         type: string
+ *       url:
+ *         type: string
  *       title:
- *          type: string
- *        year:
- *          type: string
- *        url:
- *          type: string
- *        volume:
- *          type: string
+ *         type: string
+ *       year:
+ *         type: string
+ *       volume:
+ *         type: string
  */
 
 /**
