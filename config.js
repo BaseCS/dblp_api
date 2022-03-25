@@ -16,7 +16,7 @@ nconf.env(['PORT', 'NODE_ENV'])
       alias: 'PORT',
       describe: 'Port to run on.',
       demand: false,
-      default: 3000
+      default: 8000
     },
     'n': {
       alias: "neo4j",
@@ -30,7 +30,7 @@ nconf.env(['PORT', 'NODE_ENV'])
     'PASSWORD' : process.env.DBLP_DATABASE_PASSWORD,
     'neo4j': 'local',
     'neo4j-local': process.env.DBLP_DATABASE_URL || 'neo4j://localhost:7687',
-    'base_url': 'http://localhost:3000',
+    'base_url': 'http://localhost:8000',
     'api_path': '/api/v0'
   });
 

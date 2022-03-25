@@ -14,5 +14,5 @@ To run this api, first make sure your neo4j server is running, then:
    everyone has their own username, password, and localhost links so just fill that in
    
 - once that is done, run `node app.js`
-- Then open up `localhost:3000/docs`
+- Then open up `localhost:8000/docs`
 - You should see a swagger UI documentation of the API
