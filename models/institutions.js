@@ -43,7 +43,7 @@ const getById = function (session, id) {
 // get all institutions
 const getAll = function (session) {
   return session.readTransaction(txc =>
-      txc.run('MATCH (institution:Institution) RETURN institution LIMIT 100')
+      txc.run('MATCH (institution:Institution) RETURN institution LIMIT 500')
     ).then(result => _manyInstitutions(result));
 };
 

@@ -4,13 +4,23 @@ const Person = require('../models/neo4j/person');
 const _singlePersonWithDetails = function (record) {
   if (record.length) {
     const result = {};
-    _.extend(result, new Person(record.get('person')));
-    result.id = record._fields[0].identity.low,
-    result.name = record._fields[0].properties.name,
-    result.homepage = record._fields[0].properties.homepage,
-    result.unicode_name = record._fields[0].properties.unicode_name,
-    result.affiliation = record._fields[0].properties.affiliation,
-    result.notes = record._fields[0].properties.notes
+    let auth_arr = [];
+    record.forEach(element => {
+      _.extend(result, new Person(element.get('person')));
+      let t = element._fields[0];
+      result.id = element._fields[1].identity.low,
+      result.name = element._fields[1].properties.name,
+      result.homepage = element._fields[1].properties.homepage,
+      result.unicode_name = element._fields[1].properties.unicode_name,
+      result.affiliation = element._fields[1].properties.affiliation,
+      result.notes = element._fields[1].properties.notes
+      if(t == 'AUTHORED'){
+        auth_arr.push(element._fields[2]);
+      } else if(t == 'BELONGS_TO'){
+        result.BELONGS_TO = element._fields[2]
+      }
+      result.AUTHORED = auth_arr;
+    })
     return result;
   }
   else {
@@ -20,32 +30,29 @@ const _singlePersonWithDetails = function (record) {
 
 // return many people
 function _manyPeople(neo4jResult) {
-  return neo4jResult.records.map(r => new Person(r.get('person')))
+  return neo4jResult.records.map(r => {
+    per = new Person(r.get('person'));
+    let type = r.get('r').type;
+    let arr = [];
+    arr.push(r.get('b'));
+    per[type] = arr;
+    return per;
+  });
 }
 
 // get a single person by id
 const getById = function (session, id) {
   const query = [
-    `MATCH (person:Person) WHERE ID(person) = ${id}`,
-    // 'OPTIONAL MATCH (person)-[:AUTHORED]->(a:Print)',
-    // 'OPTIONAL MATCH (person)<-[:EDITED]->(e:Anthology)',
-    // 'OPTIONAL MATCH (person)<-[:AUTHORED]->(p:Paper)',
-    'RETURN person',
-    // 'collect(DISTINCT { title:a.title, id:a.identity.low, year:a.year, series:a.series, \
-    //     isbn: a.isbn, publisher: a.publisher, electronic_edition: a.electronic_edition, \
-    //     DBLP_type: a.DBLP_type}) AS authored_print,',
-    // 'collect(DISTINCT { title:e.title, id:e.identity.low, year:e.year, isbn: e.isbn, \
-    //     publisher: e.publisher, electronic_edition: e.electronic_edition, DBLP_type: e.DBLP_type}) AS edited,',
-    // 'collect(DISTINCT { title:p.title, id:p.identity.low, year:p.year, source:p.source, \
-    //     electronic_edition: p.electronic_edition, DBLP_type: p.DBLP_type}) AS authored_paper',
+    `MATCH (person:Person)-[r]-(b)
+    WHERE ID(person) = ${id}
+    RETURN type(r), person, b`
   ].join('\n');
 
   return session.readTransaction(txc =>
       txc.run(query, {id: id})
     ).then(result => {
-        // console.log(result.records)
       if (!_.isEmpty(result.records)) {
-        return _singlePersonWithDetails(result.records[0]);
+        return _singlePersonWithDetails(result.records);
       }
       else {
         throw {message: 'person not found', status: 404}
@@ -56,10 +63,29 @@ const getById = function (session, id) {
 // get all people
 const getAll = function (session) {
   return session.readTransaction(txc =>
-      txc.run('MATCH (person:Person) RETURN person LIMIT 100')
-    ).then(result => _manyPeople(result));
+      txc.run('MATCH (person:Person)-[r]-(b) RETURN r, person, b LIMIT 500')
+    ).then(result =>{
+      let res = _manyPeople(result);
+      return mergeIds(res);
+    });
 };
 
+const mergeIds = (list) => {
+  const subarrsById = {};
+  for (const entry of list) {
+    if(!subarrsById[entry.id]){
+      if(entry.AUTHORED){
+        subarrsById[entry.id] = { ...entry, AUTHORED: [...entry.AUTHORED], BELONGS_TO: entry.BELONGS_TO};
+      }
+    } else {
+      if(entry.AUTHORED)
+        subarrsById[entry.id].AUTHORED.push(...entry.AUTHORED);
+      if(entry.BELONGS_TO)
+        subarrsById[entry.id].BELONGS_TO = entry.BELONGS_TO;
+    }
+  }
+  return Object.values(subarrsById);
+}
 
 module.exports = {
   getAll: getAll,

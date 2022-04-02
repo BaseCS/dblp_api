@@ -10,4 +10,6 @@ const Person = module.exports = function (_node) {
   this.homepage = this.homepage;
   this.unicode_name = this.unicode_name;
   this.notes = this.notes;
+  this.AUTHORED = this.AUTHORED;
+  this.BELONGS_TO = this.BELONGS_TO;
 };
