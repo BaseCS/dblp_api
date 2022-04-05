@@ -7,4 +7,6 @@ const Institution = module.exports = function (_node) {
   this.id = _node.identity.low;
   this.is_uni = this.is_uni;
   this.name = this.name;
+  this.FACULTY = this.FACULTY;
+  this.COUNTRY = this.COUNTRY;
 };
