@@ -7,4 +7,6 @@ const Country = module.exports = function (_node) {
   this.id = _node.identity.low;
   this.code = this.code;
   this.name = this.name;
+  this.INSTITUTIONS = this.INSTITUTIONS;
+  this.CONTINENT = this.CONTINENT;
 };

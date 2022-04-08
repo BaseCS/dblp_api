@@ -26,7 +26,6 @@ const _singleContinentWithDetails = function (record) {
 
 // return many continents
 function _manyContinents(neo4jResult) {
-  // return neo4jResult.records.map(r => new Continent(r.get('continent')))
   return neo4jResult.records.map(r => {
     cont = new Continent(r.get('continent'));
     let arr = [];
