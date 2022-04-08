@@ -12,6 +12,7 @@ To run this api, first make sure your neo4j server is running, then:
   ```
    
    everyone has their own username, password, and localhost links so just fill that in
+   the localhost link will most likely be `neo4j://localhost:7687`
    
 - once that is done, run `node app.js`
 - Then open up `localhost:8000/docs`

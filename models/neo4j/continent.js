@@ -7,4 +7,5 @@ const Continent = module.exports = function (_node) {
   this.id = _node.identity.low;
   this.code = this.code;
   this.name = this.name;
+  this.COUNTRIES = this.COUNTRIES;
 };
