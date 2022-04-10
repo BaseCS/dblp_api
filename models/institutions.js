@@ -68,7 +68,7 @@ const getById = function (session, id) {
 const getAll = function (session) {
   return session.readTransaction(txc =>
       txc.run(
-      `MATCH (a)-[r]-(institution:Institution) RETURN a, r, institution LIMIT 500`)
+      `MATCH (a)-[r]-(institution:Institution) RETURN a, r, institution`)
     ).then(result =>{
       let res = _manyInstitutions(result);
       //console.log(res);
