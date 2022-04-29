@@ -8,6 +8,11 @@ The data in the database is all from https://dblp.org/.
 
 The API has 10 endpoints: anthologies, conferences, continents, countries, dblps, institutions, journals, papers, people, and prints. We will describe each one, provide their paths for use, and also include instructions on how to add a new endpoint, or modify existing ones. 
 
+[Installation Instructions](#installation) <br/>
+[All Endpoints and their explanations](#all-endpoints) <br/>
+[How the API Code Works](#how-the-api-code-works) <br/>
+[How to add a new endpoint](#how-to-add-a-new-endpoint) <br/>
+
 ## Installation
 
 To run this api, first make sure your neo4j server is running, then:
