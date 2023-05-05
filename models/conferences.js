@@ -38,6 +38,25 @@ const getById = function (session, id) {
     });
 };
 
+const getPapersByConferenceId = function (session, id) {
+  const query = [
+    `MATCH (conference:Conference) WHERE ID(conference) = ${id}`,
+    'MATCH (conference)<-[:PUBLISHED_IN]-(paper:Paper)',
+    'RETURN conference, COLLECT(paper) AS papers',
+  ].join('\n');
+
+  return session.readTransaction(txc =>
+      txc.run(query, {id: id})
+    ).then(result => {
+      if (!_.isEmpty(result.records)) {
+        return _singleConferenceWithDetails(result.records[0]);
+      }
+      else {
+        throw {message: 'conference not found', status: 404}
+      }
+    });
+}
+
 // get all conferences
 const getAll = function (session) {
   return session.readTransaction(txc =>
@@ -48,5 +67,6 @@ const getAll = function (session) {
 
 module.exports = {
   getAll: getAll,
-  getById: getById
+  getById: getById,
+  getPapersByConferenceId: getPapersByConferenceId
 };

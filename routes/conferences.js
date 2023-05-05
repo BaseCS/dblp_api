@@ -63,6 +63,36 @@ exports.list = function (req, res, next) {
  *       404:
  *         description: Conference not found
  */
+ 
+
+/**
+ * @swagger
+ * /api/v0/conferences/{id}/papers:
+ *  get:
+ *   tags:
+ *  - conferences
+ *  description: Returns papers for a conference
+ *  summary: Returns papers for a conference
+ *  produces:
+ *    - application/json
+ * parameters:
+ *    - name: id
+ *    description: Conference id
+ *    in: path
+ *    required: true
+ *    type: integer
+ * responses:
+ *   200:
+ *     description: A list of papers
+ *   400:
+ *     description: Error message(s)
+ *   404:
+ *     description: Conference not found
+ */
+
+
+
+
 exports.findById = function (req, res, next) {
   const id = req.params.id;
   if (!id) throw {message: 'Invalid id', status: 400};
