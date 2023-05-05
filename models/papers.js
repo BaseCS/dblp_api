@@ -45,7 +45,7 @@ const getById = function (session, id) {
     });
 };
 
-const peopleByPaperId = function (session, id) {
+const getPeopleByPaperId = function (session, id) {
   const query = [
     `MATCH (paper:Paper) WHERE ID(paper) = ${id}`,
     'MATCH (paper)<-[:AUTHORED]-(author:Person)',
@@ -76,5 +76,6 @@ const getAll = function (session) {
 
 module.exports = {
   getAll: getAll,
-  getById: getById
+  getById: getById,
+  getPeopleByPaperId: getPeopleByPaperId
 };

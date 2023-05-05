@@ -45,6 +45,35 @@ exports.list = function (req, res, next) {
     .catch(next);
 };
 
+/**
+ * @swagger
+ * /api/v0/people/{id}/institutions:
+ *  get:
+ *    tags:
+ *    - people
+ *    description: Returns all institutions a person is affiliated with
+ *    summary: Returns all institutions a person is affiliated with
+ *    produces:
+ *    - application/json
+ *    parameters:
+ *    - name: id
+ *     description: Person id
+ *    in: path
+ *    required: true
+ *    type: integer
+ *    responses:
+ *     200:
+ *      description: A list of institutions
+ *      schema:
+ *      type: array
+ *      items:
+ *       $ref: '#/definitions/Institution'
+ *     400:
+ *      description: Error message(s)
+ *     404:
+ *      description: Person not found
+ */
+
 
 /**
  * @swagger

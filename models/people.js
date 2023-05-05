@@ -70,6 +70,27 @@ const getAll = function (session) {
     });
 };
 
+
+// get institutions by person id
+const getInstitutionsByPersonId = function (session, id) {
+  const query = [
+    `MATCH (person:Person)-[:BELONGS_TO]->(institution:Institution)`,
+    `WHERE ID(person) = ${id}`,
+    'RETURN institution',
+  ].join('\n');
+
+  return session.readTransaction(txc =>
+      txc.run(query, {id: id})
+    ).then(result => {
+      if (!_.isEmpty(result.records)) {
+        return _manyInstitutions(result);
+      }
+      else {
+        throw {message: 'person not found', status: 404}
+      }
+    });
+}
+
 const mergeIds = (list) => {
   const subarrsById = {};
   for (const entry of list) {
@@ -89,5 +110,6 @@ const mergeIds = (list) => {
 
 module.exports = {
   getAll: getAll,
-  getById: getById
+  getById: getById,
+  getInstitutionsByPersonId: getInstitutionsByPersonId
 };
