@@ -45,6 +45,27 @@ const getById = function (session, id) {
     });
 };
 
+const peopleByPaperId = function (session, id) {
+  const query = [
+    `MATCH (paper:Paper) WHERE ID(paper) = ${id}`,
+    'MATCH (paper)<-[:AUTHORED]-(author:Person)',
+    'RETURN paper, COLLECT(author) AS authors',
+  ].join('\n');
+
+  return session.readTransaction(txc =>
+      txc.run(query, {id: id})
+    ).then(result => {
+      if (!_.isEmpty(result.records)) {
+        return _singlePaperWithDetails(result.records[0]);
+      }
+      else {
+        throw {message: 'paper not found', status: 404}
+      }
+    });
+      
+  }
+
+
 // get all papers
 const getAll = function (session) {
   return session.readTransaction(txc =>

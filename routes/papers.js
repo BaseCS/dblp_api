@@ -51,6 +51,37 @@ exports.list = function (req, res, next) {
     .catch(next);
 };
 
+/**
+ * @swagger
+ * /api/v0/papers/{id}/people
+ *  get:
+ *   tags:
+ *   - papers
+ *   description: Returns all people who have published a paper
+ *   summary: Returns all people who have published a paper
+ *   produces:
+ *     - application/json
+ *   parameters:
+ *    - name: id
+ *     description: Paper id
+ *     in: path
+ *     required: true
+ *     type: integer
+ *   responses:
+ *    200:
+ *     description: A list of people
+ *     schema:
+ *      type: array
+ *     items:
+ *     $ref: '#/definitions/Person'
+ *   400:
+ *    description: Error message(s)
+ *  404:
+ *    description: Paper not found
+ * 
+ * 
+ */
+
 
 /**
  * @swagger
