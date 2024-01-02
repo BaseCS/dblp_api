@@ -1,77 +1,83 @@
+// Import and configure environment variables from a .env file
 require("dotenv").config();
 
+// Import required libraries and modules
 var express = require("express"),
-  path = require("path"),
-  router = (global.router = (express.Router())),
-  // routes = require("./routes"),
-  nconf = require("./config"),
-  swaggerJSDoc = require("swagger-jsdoc"),
-  swaggerUi = require("swagger-ui-express"),
-  methodOverride = require("method-override"),
-  errorHandler = require("errorhandler"),
+    path = require("path"),
+    router = (global.router = (express.Router())),
+    // routes = require("./routes"),
+    nconf = require("./config"),
+    swaggerJSDoc = require("swagger-jsdoc"),
+    swaggerUi = require("swagger-ui-express"),
+    methodOverride = require("method-override"),
+    errorHandler = require("errorhandler"),
 //   bodyParser = require("body-parser"),
 //   setAuthUser = require("./middlewares/setAuthUser"),
 //   neo4jSessionCleanup = require("./middlewares/neo4jSessionCleanup"),
-  writeError = require("./helpers/response").writeError;
+    writeError = require("./helpers/response").writeError;
 
+// Create instances of Express application
 var app = express(),
-  api = express();
+    api = express();
 
+// Mount the 'api' sub-application under a specific path defined in the configuration
 app.use(nconf.get("api_path"), api);
 
+// Define the Swagger (API documentation) definition
 var swaggerDefinition = {
-  info: {
-    title: "Neo4j DBLP Demo API (Node/Express)",
-    version: "1.0.0",
-    description: "",
-  },
-  host: "localhost:8000",
-  basePath: "/",
+    info: {
+        title: "Neo4j DBLP Demo API (Node/Express)",
+        version: "1.0.0",
+        description: "",
+    },
+    host: "localhost:8000",
+    basePath: "/",
 };
 
-// options for the swagger docs
+// Options for configuring Swagger documentation generation
 var options = {
-  // import swaggerDefinitions
-  swaggerDefinition: swaggerDefinition,
-  // path to the API docs
-  apis: ["./routes/*.js"],
+    // import swaggerDefinitions
+    swaggerDefinition: swaggerDefinition,
+    // Path to API route files
+    apis: ["./routes/*.js"],
 };
 
-// initialize swagger-jsdoc
+// Initialize Swagger documentation generator
 var swaggerSpec = swaggerJSDoc(options);
 
-// serve swagger
 // api.get("/swagger.json", function (req, res) {
 //   res.setHeader("Content-Type", "application/json");
 //   res.send(swaggerSpec);
 // });
 
+// Serve Swagger UI at the "/docs" endpoint
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.set("port", nconf.get("PORT"));
+
 
 // api.use(bodyParser.json());
 api.use(methodOverride());
 
-//enable CORS
+// Middleware for enabling CORS (Cross-Origin Resource Sharing)
 api.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+    );
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    next();
 });
 
 //api custom middlewares:
 // api.use(setAuthUser);
 // api.use(neo4jSessionCleanup);
 
-//api routes
+// Define API routes and associate them with their corresponding handlers
 api.get("/anthologies", require('./routes/anthologies').list);
 api.get("/anthologies/:id", require('./routes/anthologies').findById);
 
@@ -102,16 +108,17 @@ api.get("/people/:id", require('./routes/people').findById);
 api.get("/prints/", require('./routes/prints').list);
 api.get("/prints/:id", require('./routes/prints').findById);
 
-//api error handler
+// Error handling middleware for the API
 api.use(function (err, req, res, next) {
-  if (err && err.status) {
-    writeError(res, err);
-  } else next(err);
+    if (err && err.status) {
+        writeError(res, err);
+    } else next(err);
 });
 
+// Start the Express server and listen on a specified port
 app.listen(app.get("port"), () => {
-  console.log(
-    "Express server listening on port " + app.get("port") + " see docs at /docs"
-  );
+    console.log(
+        "Express server listening on port " + app.get("port") + " see docs at /docs"
+    );
 });
 
