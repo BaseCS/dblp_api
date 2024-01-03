@@ -1,13 +1,11 @@
-const counts = require('../models/counts')
-, _ = require('lodash')
-, writeResponse = require('../helpers/response').writeResponse
-, dbUtils = require('../neo4j/dbUtils');
-
-
+const counts = require("../models/counts"),
+  _ = require("lodash"),
+  writeResponse = require("../helpers/response").writeResponse,
+  dbUtils = require("../neo4j/dbUtils");
 
 /**
  * @swagger
- * 
+ *
  *  /api/v0/counts:
  *  get:
  *   tags:

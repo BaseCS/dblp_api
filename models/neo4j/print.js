@@ -1,17 +1,21 @@
-// extracts just the data from the query results
+// Extracts just the data from the query results
 
-const _ = require('lodash');
+const _ = require("lodash");
 
-const Print = module.exports = function (_node) {
+// Create a constructor function for the Person object
+const Person = (module.exports = function (_node) {
+  // Initialize the Person object by extending it with the properties of the _node object
   _.extend(this, _node.properties);
+
+  // Assign additional properties to the Person object
   this.id = _node.identity.low;
-  this.DBLP_type = this.DBLP_type;
-  this.electronic_edition = this.electronic_edition;
-  this.isbn = this.isbn;
-  this.number_of_pages = this.number_of_pages;
-  this.pages = this.pages;
-  this.publisher = this.publisher;
-  this.series = this.series;
-  this.title = this.title;
-  this.year = this.year;
-};
+  this.name = this.name;
+  this.affiliation = this.affiliation;
+  this.homepage = this.homepage;
+  this.unicode_name = this.unicode_name;
+  this.notes = this.notes;
+  this.AUTHORED = this.AUTHORED;
+  this.BELONGS_TO = this.BELONGS_TO;
+});
+
+// Export the Person constructor function as a module

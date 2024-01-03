@@ -1,9 +1,14 @@
-// extracts just the data from the query results
+// Import the lodash library for utility functions
+const _ = require("lodash");
 
-const _ = require('lodash');
-
-const DBLP = module.exports = function (_node) {
+// Create a constructor function for the DBLP object
+const DBLP = (module.exports = function (_node) {
+  // Initialize the DBLP object by extending it with the properties of the _node object
   _.extend(this, _node.properties);
+
+  // Assign additional properties to the DBLP object
   this.id = _node.identity.low;
   this.name = this.name;
-};
+});
+
+// Export the DBLP constructor function as a module

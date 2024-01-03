@@ -1,7 +1,7 @@
-const People = require('../models/people')
-  , _ = require('lodash')
-  , writeResponse = require('../helpers/response').writeResponse
-  , dbUtils = require('../neo4j/dbUtils');
+const People = require("../models/people"),
+  _ = require("lodash"),
+  writeResponse = require("../helpers/response").writeResponse,
+  dbUtils = require("../neo4j/dbUtils");
 
 /**
  * @swagger
@@ -41,7 +41,7 @@ const People = require('../models/people')
  */
 exports.list = function (req, res, next) {
   People.getAll(dbUtils.getSession(req))
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };
 
@@ -74,7 +74,6 @@ exports.list = function (req, res, next) {
  *      description: Person not found
  */
 
-
 /**
  * @swagger
  * /api/v0/people/{id}:
@@ -102,9 +101,9 @@ exports.list = function (req, res, next) {
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
-  if (!id) throw {message: 'Invalid id', status: 400};
+  if (!id) throw { message: "Invalid id", status: 400 };
 
   People.getById(dbUtils.getSession(req), id)
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };

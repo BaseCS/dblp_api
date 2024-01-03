@@ -1,7 +1,7 @@
-const Conferences = require('../models/conferences')
-  , _ = require('lodash')
-  , writeResponse = require('../helpers/response').writeResponse
-  , dbUtils = require('../neo4j/dbUtils');
+const Conferences = require("../models/conferences"),
+  _ = require("lodash"),
+  writeResponse = require("../helpers/response").writeResponse,
+  dbUtils = require("../neo4j/dbUtils");
 
 /**
  * @swagger
@@ -33,10 +33,9 @@ const Conferences = require('../models/conferences')
  */
 exports.list = function (req, res, next) {
   Conferences.getAll(dbUtils.getSession(req))
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };
-
 
 /**
  * @swagger
@@ -63,7 +62,6 @@ exports.list = function (req, res, next) {
  *       404:
  *         description: Conference not found
  */
- 
 
 /**
  * @swagger
@@ -90,14 +88,11 @@ exports.list = function (req, res, next) {
  *     description: Conference not found
  */
 
-
-
-
 exports.findById = function (req, res, next) {
   const id = req.params.id;
-  if (!id) throw {message: 'Invalid id', status: 400};
+  if (!id) throw { message: "Invalid id", status: 400 };
 
   Conferences.getById(dbUtils.getSession(req), id)
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };

@@ -1,12 +1,17 @@
-// extracts just the data from the query results
+// Import the lodash library for utility functions
+const _ = require("lodash");
 
-const _ = require('lodash');
-
-const Institution = module.exports = function (_node) {
+// Create a constructor function for the Institution object
+const Institution = (module.exports = function (_node) {
+  // Initialize the Institution object by extending it with the properties of the _node object
   _.extend(this, _node.properties);
+
+  // Assign additional properties to the Institution object
   this.id = _node.identity.low;
   this.is_uni = this.is_uni;
   this.name = this.name;
   this.FACULTY = this.FACULTY;
   this.COUNTRY = this.COUNTRY;
-};
+});
+
+// Export the Institution constructor function as a module

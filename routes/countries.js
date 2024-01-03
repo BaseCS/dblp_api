@@ -1,7 +1,7 @@
-const Countries = require('../models/countries')
-  , _ = require('lodash')
-  , writeResponse = require('../helpers/response').writeResponse
-  , dbUtils = require('../neo4j/dbUtils');
+const Countries = require("../models/countries"),
+  _ = require("lodash"),
+  writeResponse = require("../helpers/response").writeResponse,
+  dbUtils = require("../neo4j/dbUtils");
 
 /**
  * @swagger
@@ -35,10 +35,9 @@ const Countries = require('../models/countries')
  */
 exports.list = function (req, res, next) {
   Countries.getAll(dbUtils.getSession(req))
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };
-
 
 /**
  * @swagger
@@ -67,9 +66,9 @@ exports.list = function (req, res, next) {
  */
 exports.findById = function (req, res, next) {
   const id = req.params.id;
-  if (!id) throw {message: 'Invalid id', status: 400};
+  if (!id) throw { message: "Invalid id", status: 400 };
 
   Countries.getById(dbUtils.getSession(req), id)
-    .then(response => writeResponse(res, response))
+    .then((response) => writeResponse(res, response))
     .catch(next);
 };
